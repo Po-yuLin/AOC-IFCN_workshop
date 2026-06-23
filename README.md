@@ -1,3 +1,6 @@
+# AOC-IFCN workshop
+
+This repository contains materials for the AOC-IFCN Learning Series in Taipei, Topic 3: Generative AI for Sleep Signals Through Vibe Coding.
 # AOC-IFCN Workshop: Generative AI for Sleep Signals Through Vibe Coding
 
 **From PSG Signals to Deep Learning: An AI-Assisted Hands-on Approach**  
