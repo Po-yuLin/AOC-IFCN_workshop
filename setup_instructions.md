@@ -121,7 +121,7 @@ Follow the prompts and allow the installer to initialize conda. Then restart you
 Run the following commands in your terminal (macOS/Linux) or Miniforge Prompt (Windows):
 
 ```bash
-# Create a new environment named 'rbd_workshop' with Python 3.11
+# Create a new environment named 'ifcn_workshop' with Python 3.11
 conda create -n ifcn_workshop python=3.11 -y
 
 # Activate the environment
@@ -154,18 +154,25 @@ pip install torch --index-url https://download.pytorch.org/whl/rocm7.2
 
 > **Note:** ROCm support on Windows is limited and not recommended for this workshop. Windows users with AMD GPUs should use the CPU option below.
 
-#### Option C — CPU only
-For all other cases, including:
-- MacBooks with Intel processors
-- MacBooks with Apple Silicon (M1/M2/M3/M4) — PyTorch uses the MPS backend instead of CUDA
-- Windows or Linux laptops without a dedicated GPU
-- Virtual machines
+#### Option C — Mac (Intel or Apple Silicon)
+macOS has no CUDA. On Apple Silicon (M1/M2/M3/M4) PyTorch automatically uses the built-in MPS (Metal Performance Shaders) backend for GPU acceleration; on Intel Macs it simply runs on CPU. In both cases the standard install is correct:
 
 ```bash
 pip install torch
 ```
 
-> **Apple Silicon note:** PyTorch on Apple Silicon (M1/M2/M3/M4) uses the built-in MPS (Metal Performance Shaders) backend for GPU acceleration automatically. No special installation is needed — the standard CPU install above will enable MPS if available. You can verify with `torch.backends.mps.is_available()`.
+> **Apple Silicon note:** No special installation is needed — the standard install above enables MPS automatically if available. You can verify with `torch.backends.mps.is_available()`.
+
+#### Option D — CPU only (Windows / Linux without a dedicated GPU)
+For all other cases, including:
+- Windows or Linux laptops without a dedicated GPU
+- Virtual machines
+
+```bash
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+```
+
+> **Why the extra `--index-url`?** As of PyTorch 2.11, a plain `pip install torch` on Linux downloads the large CUDA build by default. On a machine without an NVIDIA GPU that wheel is several GB for nothing and `torch.cuda.is_available()` will still be `False`. The `cpu` index gives you the smaller CPU-only build. (Mac users in Option C do **not** need this — the standard install is already correct for macOS.)
 
 Finally, install the remaining packages:
 
