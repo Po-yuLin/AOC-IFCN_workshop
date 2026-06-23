@@ -10,7 +10,7 @@ Po-Yu Lin, MD — National Cheng Kung University Hospital
 
 Please set up your environment in advance by following the instructions in:
 
-👉 **[environment_setup.md](environment_setup.md)**
+👉 **[environment_setup.md]([environment_setup.md](https://github.com/Po-yuLin/AOC-IFCN_workshop/blob/main/setup_instructions.md))**
 
 This covers both Google Colab (recommended, no installation required) and local setup via Miniforge.
 
