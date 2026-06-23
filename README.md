@@ -1,4 +1,4 @@
-# AOC-IFCN Workshop: From PSG Signals to Deep Learning
+# AOC-IFCN Workshop: Generative AI for Sleep Signals Through Vibe Coding
 
 **From PSG Signals to Deep Learning: An AI-Assisted Hands-on Approach**  
 IFCN Asia-Oceania Chapter Congress  
