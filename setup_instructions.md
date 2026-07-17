@@ -2,6 +2,12 @@
 
 This workshop runs entirely in your browser using Google Colab. **No local installation is required.** However, if you prefer to run the notebook locally, Part 2 provides instructions for setting up a local environment using Miniforge.
 
+> **Where you run it (Colab or local).** The notebook's first cell has a `RUNTIME`
+> switch that **auto-detects** Colab vs local — you normally don't need to touch it. To
+> force a mode, set `RUNTIME = "colab"` or `RUNTIME = "local"`; set `DATA_DIR` if you
+> want the data stored in a specific folder. On Colab the packages install
+> automatically; locally the notebook simply uses the environment you build below.
+
 ---
 
 ## Part 1 — Google Colab (Recommended)
@@ -24,30 +30,32 @@ Google Colab provides free access to a cloud-based Python environment with limit
 
 ### Step 3: Test your environment
 
-Copy and run the following code in a Colab cell to verify everything is working:
+Copy and run the following code in a Colab cell to verify everything is working. These are the exact packages the workshop notebook uses:
 
 ```python
 # Test Colab environment
 import sys
 print(f"Python version: {sys.version}")
 
-# Install required packages
-!pip install -q mne wfdb scikit-learn
+# The workshop notebook installs just these two; the rest come pre-installed in Colab.
+!pip install -q mne h5py
 
 import torch
 import mne
-import wfdb
+import h5py
 import sklearn
+import tqdm
 import numpy as np
 import matplotlib
 
-print(f"PyTorch   : {torch.__version__}")
+print(f"PyTorch      : {torch.__version__}")
 print(f"CUDA available: {torch.cuda.is_available()}")
-print(f"MNE       : {mne.__version__}")
-print(f"wfdb      : {wfdb.__version__}")
-print(f"scikit-learn: {sklearn.__version__}")
-print(f"NumPy     : {np.__version__}")
-print(f"Matplotlib: {matplotlib.__version__}")
+print(f"MNE          : {mne.__version__}")
+print(f"h5py         : {h5py.__version__}")
+print(f"scikit-learn : {sklearn.__version__}")
+print(f"tqdm         : {tqdm.__version__}")
+print(f"NumPy        : {np.__version__}")
+print(f"Matplotlib   : {matplotlib.__version__}")
 print("\nAll packages installed successfully!")
 ```
 
@@ -55,22 +63,23 @@ print("\nAll packages installed successfully!")
 
 ```
 Python version: 3.x.x
-PyTorch   : 2.x.x
+PyTorch      : 2.x.x
 CUDA available: True
-MNE       : 1.x.x
-wfdb      : 4.x.x
-scikit-learn: 1.x.x
-NumPy     : 2.x.x
-Matplotlib: 3.x.x
+MNE          : 1.x.x
+h5py         : 3.x.x
+scikit-learn : 1.x.x
+tqdm         : 4.x.x
+NumPy        : 2.x.x
+Matplotlib   : 3.x.x
 
 All packages installed successfully!
 ```
 
 > **Note:** If `CUDA available` shows `False`, please go back to Step 2 and confirm that T4 GPU is selected.
 
-> **Note on dependency warnings:** After running `pip install`, you may see messages such as `ERROR: pip's dependency resolver does not currently take into account all the packages...` followed by conflicts involving `google-colab`, `gradio`, `moviepy`, or `ipython`. These are warnings about Colab's own pre-installed packages and **will not affect the workshop in any way.** As long as the package versions print correctly and you see "All packages installed successfully!", you are good to go.
+> **Note on dependency warnings:** After running `pip install`, you may see messages such as `ERROR: pip's dependency resolver does not currently take into account all the packages...` followed by conflicts involving `google-colab`, `gradio`, `moviepy`, or `ipython`. These are warnings about Colab's own pre-installed packages and **will not affect the workshop in any way.** (The workshop notebook hides them with `2>/dev/null`.) As long as the package versions print correctly and you see "All packages installed successfully!", you are good to go.
 
-> ⚠️ **Important — GPU quota:** Google Colab's free tier has a limited GPU quota per day. Once you have confirmed that the test cell runs successfully, **please disconnect and delete the runtime immediately** (Runtime → Disconnect and delete runtime). This will release the GPU and preserve your quota for use during the workshop. If your quota runs out mid-session, the notebook will fall back to CPU, which will be significantly slower.  If needed, additional compute units can be purchased through [Google Colab Pro](https://colab.research.google.com/signup).
+> ⚠️ **Important — GPU quota:** Google Colab's free tier has a limited GPU quota per day. Once you have confirmed that the test cell runs successfully, **please disconnect and delete the runtime immediately** (Runtime → Disconnect and delete runtime). This will release the GPU and preserve your quota for use during the workshop. If your quota runs out mid-session, the notebook will fall back to CPU, which is slower but still completes the workshop. If needed, additional compute units can be purchased through [Google Colab Pro](https://colab.research.google.com/signup).
 
 ---
 
@@ -174,10 +183,10 @@ pip install torch --index-url https://download.pytorch.org/whl/cpu
 
 > **Why the extra `--index-url`?** As of PyTorch 2.11, a plain `pip install torch` on Linux downloads the large CUDA build by default. On a machine without an NVIDIA GPU that wheel is several GB for nothing and `torch.cuda.is_available()` will still be `False`. The `cpu` index gives you the smaller CPU-only build. (Mac users in Option C do **not** need this — the standard install is already correct for macOS.)
 
-Finally, install the remaining packages:
+Finally, install the remaining packages the notebook uses:
 
 ```bash
-pip install mne wfdb scikit-learn jupyter notebook numpy scipy matplotlib
+pip install mne h5py scikit-learn tqdm jupyter notebook numpy scipy matplotlib
 ```
 
 > **Note for Windows users:** If you encounter a permissions error during `pip install`, try running Miniforge Prompt as Administrator.
@@ -208,8 +217,9 @@ print(f"Python version: {sys.version}")
 
 import torch
 import mne
-import wfdb
+import h5py
 import sklearn
+import tqdm
 import numpy as np
 import matplotlib
 
@@ -218,8 +228,9 @@ print(f"CUDA available : {torch.cuda.is_available()}")
 print(f"ROCm available : {torch.version.hip is not None}")
 print(f"MPS available  : {torch.backends.mps.is_available()}")
 print(f"MNE          : {mne.__version__}")
-print(f"wfdb         : {wfdb.__version__}")
+print(f"h5py         : {h5py.__version__}")
 print(f"scikit-learn : {sklearn.__version__}")
+print(f"tqdm         : {tqdm.__version__}")
 print(f"NumPy        : {np.__version__}")
 print(f"Matplotlib   : {matplotlib.__version__}")
 print("\nAll packages installed successfully!")
